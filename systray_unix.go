@@ -118,6 +118,12 @@ func SetTitle(t string) {
 	}
 }
 
+// SetTitleFont sets the font for the systray title.
+// Only supported on macOS.
+func SetTitleFont(fontName string, size float64) {
+	// do nothing
+}
+
 // SetTooltip sets the systray tooltip to display on mouse hover of the tray icon,
 // only available on Mac and Windows.
 func SetTooltip(tooltipTitle string) {

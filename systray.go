@@ -24,6 +24,22 @@ var (
 	TrayOpenedCh = make(chan struct{})
 )
 
+// Font constants for SetTitleFont (macOS only).
+const (
+	// Fully monospaced system font (SF Mono) - all characters same width
+	FontSystemMono       = "system-mono"
+	FontSystemMonoMedium = "system-mono-medium"
+	FontSystemMonoBold   = "system-mono-bold"
+	FontSystemMonoLight  = "system-mono-light"
+
+	// System font with tabular (monospaced) digits - like the menu bar clock.
+	// Letters are proportional, but digits 0-9 have equal width.
+	FontSystemTabular       = "system-tabular"
+	FontSystemTabularMedium = "system-tabular-medium"
+	FontSystemTabularBold   = "system-tabular-bold"
+	FontSystemTabularLight  = "system-tabular-light"
+)
+
 // This helper function allows us to call systrayExit only once,
 // without accidentally calling it twice in the same lifetime.
 func runSystrayExit() {
