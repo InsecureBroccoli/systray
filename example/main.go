@@ -5,8 +5,8 @@ import (
 	"log"
 	"time"
 
-	"fyne.io/systray"
-	"fyne.io/systray/example/icon"
+	"github.com/insecurebroccoli/systray"
+	"github.com/insecurebroccoli/systray/example/icon"
 )
 
 func main() {
