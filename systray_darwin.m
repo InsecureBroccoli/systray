@@ -171,6 +171,40 @@ withParentMenuId: (int)theParentMenuId
   [self updateTitleButtonStyle];
 }
 
+- (void)setTitleFont:(NSArray *)fontData {
+  NSString* fontName = [fontData objectAtIndex:0];
+  double fontSize = [[fontData objectAtIndex:1] doubleValue];
+
+  NSFont* font;
+  if ([fontName length] == 0) {
+    font = [NSFont systemFontOfSize:fontSize];
+  } else if ([fontName isEqualToString:@"system-mono"]) {
+    // SF Mono is a protected system font, must use this API
+    font = [NSFont monospacedSystemFontOfSize:fontSize weight:NSFontWeightRegular];
+  } else if ([fontName isEqualToString:@"system-mono-medium"]) {
+    font = [NSFont monospacedSystemFontOfSize:fontSize weight:NSFontWeightMedium];
+  } else if ([fontName isEqualToString:@"system-mono-bold"]) {
+    font = [NSFont monospacedSystemFontOfSize:fontSize weight:NSFontWeightBold];
+  } else if ([fontName isEqualToString:@"system-mono-light"]) {
+    font = [NSFont monospacedSystemFontOfSize:fontSize weight:NSFontWeightLight];
+  } else if ([fontName isEqualToString:@"system-tabular"]) {
+    // System font with tabular (monospaced) digits - like the menu bar clock
+    font = [NSFont monospacedDigitSystemFontOfSize:fontSize weight:NSFontWeightRegular];
+  } else if ([fontName isEqualToString:@"system-tabular-medium"]) {
+    font = [NSFont monospacedDigitSystemFontOfSize:fontSize weight:NSFontWeightMedium];
+  } else if ([fontName isEqualToString:@"system-tabular-bold"]) {
+    font = [NSFont monospacedDigitSystemFontOfSize:fontSize weight:NSFontWeightBold];
+  } else if ([fontName isEqualToString:@"system-tabular-light"]) {
+    font = [NSFont monospacedDigitSystemFontOfSize:fontSize weight:NSFontWeightLight];
+  } else {
+    font = [NSFont fontWithName:fontName size:fontSize];
+    if (font == nil) {
+      font = [NSFont systemFontOfSize:fontSize];
+    }
+  }
+  statusItem.button.font = font;
+}
+
 - (void)updateTitleButtonStyle {
   if (statusItem.button.image != nil) {
     if ([statusItem.button.title length] == 0) {
@@ -413,6 +447,14 @@ void setTitle(char* ctitle) {
                                              encoding:NSUTF8StringEncoding];
   free(ctitle);
   runInMainThread(@selector(setTitle:), (id)title);
+}
+
+void setTitleFont(char* cfontName, double size) {
+  NSString* fontName = [[NSString alloc] initWithCString:cfontName
+                                                encoding:NSUTF8StringEncoding];
+  free(cfontName);
+  NSArray* fontData = @[fontName, @(size)];
+  runInMainThread(@selector(setTitleFont:), fontData);
 }
 
 void setTooltip(char* ctooltip) {

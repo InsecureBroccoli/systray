@@ -1020,6 +1020,12 @@ func SetTitle(title string) {
 	// do nothing
 }
 
+// SetTitleFont sets the font for the systray title.
+// Only supported on macOS.
+func SetTitleFont(fontName string, size float64) {
+	// do nothing
+}
+
 func (item *MenuItem) parentId() uint32 {
 	if item.parent != nil {
 		return uint32(item.parent.id)
